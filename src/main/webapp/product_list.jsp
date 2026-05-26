@@ -44,6 +44,10 @@
     const pageSize = 10;
     let total = 0;
 
+    function escapeHtml(text) {
+        return $('<div/>').text(text == null ? '' : text).html();
+    }
+
     function loadProducts() {
         $.getJSON(ctx + '/product?action=page&page=' + page + '&pageSize=' + pageSize, function (res) {
             if (res.code !== 0) {
@@ -55,7 +59,7 @@
             const rows = (data.list || []).map(p => `
                 <tr>
                     <td>${p.id}</td>
-                    <td>${p.name}</td>
+                    <td>${escapeHtml(p.name)}</td>
                     <td>${p.price}</td>
                     <td>${p.stock}</td>
                     <td><button onclick="addToCart(${p.id})">加入购物车</button></td>

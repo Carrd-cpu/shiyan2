@@ -35,18 +35,21 @@
 
 ## 连接池配置
 配置文件：`src/main/resources/druid.properties`
+示例文件：`src/main/resources/druid.properties.example`
 
-当前示例配置（仅本地开发示例）使用：
+本仓库默认提供占位符配置（`druid.properties`），请复制示例并按环境修改：
+- 复制 `druid.properties.example` 内容到 `druid.properties`
+- 按你的 MySQL 环境修改 URL、用户名、密码
+
+示例文件中的本地开发账号：
 - `username=root`
 - `password=20120104`
-
-请按你自己的环境修改数据库地址、用户名和密码。
 
 ## IntelliJ IDEA + Tomcat 运行步骤
 1. IDEA 打开项目，等待 Maven 依赖下载。
 2. 确认本地 JDK 设置为 21。
 3. 在 MySQL 导入 `sql/init.sql`。
-4. 按环境修改 `src/main/resources/druid.properties`。
+4. 将 `src/main/resources/druid.properties.example` 的配置复制到 `src/main/resources/druid.properties` 并按环境修改。
 5. 配置 Tomcat 10.x 本地运行，部署 `war exploded`。
 6. 启动后访问：`http://localhost:8080/shiyan2/`
 

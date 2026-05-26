@@ -44,6 +44,10 @@
     const pageSize = 10;
     let total = 0;
 
+    function escapeHtml(text) {
+        return $('<div/>').text(text == null ? '' : text).html();
+    }
+
     function loadCart() {
         $.getJSON(ctx + '/cart?action=page&page=' + page + '&pageSize=' + pageSize, function (res) {
             if (res.code === 401) {
@@ -60,7 +64,7 @@
                 <tr>
                     <td><input type="checkbox" ${item.checked === 1 ? 'checked' : ''} onchange="toggleCheck(${item.id}, this.checked)"/></td>
                     <td>${item.id}</td>
-                    <td>${item.productName}</td>
+                    <td>${escapeHtml(item.productName)}</td>
                     <td>${item.price}</td>
                     <td>${item.stock}</td>
                     <td><input type="number" min="1" max="${item.stock}" value="${item.quantity}" onchange="updateQty(${item.id}, this.value)" style="width:70px;"/></td>

@@ -35,6 +35,7 @@ CREATE TABLE cart_item (
 );
 
 INSERT INTO `user` (username, password) VALUES
+-- password md5 for plain text "123456"
 ('student', 'e10adc3949ba59abbe56e057f20f883e');
 
 INSERT INTO product (name, price, stock) VALUES

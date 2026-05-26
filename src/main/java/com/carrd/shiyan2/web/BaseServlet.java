@@ -25,7 +25,8 @@ public abstract class BaseServlet extends HttpServlet {
             JsonUtil.writeError(resp, 404, "action不存在: " + action);
         } catch (Exception e) {
             Throwable cause = e.getCause() == null ? e : e.getCause();
-            JsonUtil.writeError(resp, 500, cause.getMessage());
+            getServletContext().log("Servlet action invoke failed: " + action, cause);
+            JsonUtil.writeError(resp, 500, "服务器内部错误");
         }
     }
 

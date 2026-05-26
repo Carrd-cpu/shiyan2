@@ -16,8 +16,8 @@
 <body>
 <div class="box">
     <h3>在线购物系统登录</h3>
-    <input id="username" placeholder="用户名" value="student"/>
-    <input id="password" type="password" placeholder="密码" value="123456"/>
+    <input id="username" placeholder="用户名"/>
+    <input id="password" type="password" placeholder="密码"/>
     <button id="loginBtn">登录</button>
     <div class="msg" id="msg"></div>
 </div>

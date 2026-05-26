@@ -33,6 +33,9 @@
 
 <script>
     const ctx = '${pageContext.request.contextPath}';
+    function escapeHtml(text) {
+        return $('<div/>').text(text == null ? '' : text).html();
+    }
 
     function loadSummary() {
         $.getJSON(ctx + '/checkout?action=summary', function (res) {
@@ -48,7 +51,7 @@
             const rows = (data.items || []).map(item => `
                 <tr>
                     <td>${item.id}</td>
-                    <td>${item.productName}</td>
+                    <td>${escapeHtml(item.productName)}</td>
                     <td>${item.price}</td>
                     <td>${item.quantity}</td>
                     <td>${(item.price * item.quantity).toFixed(2)}</td>

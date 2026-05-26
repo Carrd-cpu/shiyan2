@@ -1,7 +1,7 @@
 driverClassName=com.mysql.cj.jdbc.Driver
 url=jdbc:mysql://127.0.0.1:3306/mvc_shop1?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
-username=your_username
-password=your_password
+username=root
+password=20120104
 initialSize=2
 minIdle=2
 maxActive=10
