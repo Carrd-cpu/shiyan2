@@ -50,11 +50,11 @@
             const data = res.data;
             const rows = (data.items || []).map(item => `
                 <tr>
-                    <td>${item.id}</td>
-                    <td>${escapeHtml(item.productName)}</td>
-                    <td>${item.price}</td>
-                    <td>${item.quantity}</td>
-                    <td>${(item.price * item.quantity).toFixed(2)}</td>
+                    <td>\${item.id}</td>
+                    <td>\${escapeHtml(item.productName)}</td>
+                    <td>\${item.price}</td>
+                    <td>\${item.quantity}</td>
+                    <td>\${(item.price * item.quantity).toFixed(2)}</td>
                 </tr>
             `).join('');
             $('#tbody').html(rows);
