@@ -67,7 +67,16 @@
                     <td>\${escapeHtml(item.productName)}</td>
                     <td>\${item.price}</td>
                     <td>\${item.stock}</td>
-                    <td><input type="number" min="1" max="\${item.stock}" value="\${item.quantity}" onchange="updateQty(\${item.id}, this.value)" style="width:70px;"/></td>
+                    <td>
+                        <input type="number"
+                               min="1"
+                               max="\${item.stock}"
+                               value="\${item.quantity}"
+                               data-stock="\${item.stock}"
+                               data-old="\${item.quantity}"
+                               onchange="updateQty(\${item.id}, this)"
+                               style="width:70px;"/>
+                    </td>
                     <td>\${(item.price * item.quantity).toFixed(2)}</td>
                     <td><button onclick="delItem(\${item.id})">删除</button></td>
                 </tr>
@@ -83,8 +92,27 @@
         }, 'json');
     }
 
-    function updateQty(cartItemId, quantity) {
-        $.post(ctx + '/cart?action=updateQty', {cartItemId: cartItemId, quantity: quantity}, function (res) {
+    // quantityInput: HTMLInputElement
+    function updateQty(cartItemId, quantityInput) {
+        const stock = parseInt($(quantityInput).data('stock'), 10);
+        const oldVal = parseInt($(quantityInput).data('old'), 10);
+
+        let q = parseInt(quantityInput.value, 10);
+        if (isNaN(q)) q = oldVal;
+
+        if (q < 1) {
+            alert('数量不能小于 1');
+            q = 1;
+        }
+        if (!isNaN(stock) && q > stock) {
+            alert('数量不能超过库存（当前库存：' + stock + '）');
+            q = stock;
+        }
+
+        // fix input value immediately
+        quantityInput.value = String(q);
+
+        $.post(ctx + '/cart?action=updateQty', {cartItemId: cartItemId, quantity: q}, function (res) {
             if (res.code !== 0) {
                 alert(res.msg);
             }
