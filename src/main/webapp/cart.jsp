@@ -62,18 +62,18 @@
             total = data.total;
             const rows = (data.list || []).map(item => `
                 <tr>
-                    <td><input type="checkbox" ${item.checked === 1 ? 'checked' : ''} onchange="toggleCheck(${item.id}, this.checked)"/></td>
-                    <td>${item.id}</td>
-                    <td>${escapeHtml(item.productName)}</td>
-                    <td>${item.price}</td>
-                    <td>${item.stock}</td>
-                    <td><input type="number" min="1" max="${item.stock}" value="${item.quantity}" onchange="updateQty(${item.id}, this.value)" style="width:70px;"/></td>
-                    <td>${(item.price * item.quantity).toFixed(2)}</td>
-                    <td><button onclick="delItem(${item.id})">删除</button></td>
+                    <td><input type="checkbox" \${item.checked === 1 ? 'checked' : ''} onchange="toggleCheck(\${item.id}, this.checked)"/></td>
+                    <td>\${item.id}</td>
+                    <td>\${escapeHtml(item.productName)}</td>
+                    <td>\${item.price}</td>
+                    <td>\${item.stock}</td>
+                    <td><input type="number" min="1" max="\${item.stock}" value="\${item.quantity}" onchange="updateQty(\${item.id}, this.value)" style="width:70px;"/></td>
+                    <td>\${(item.price * item.quantity).toFixed(2)}</td>
+                    <td><button onclick="delItem(\${item.id})">删除</button></td>
                 </tr>
             `).join('');
             $('#tbody').html(rows);
-            $('#pageInfo').text(`第 ${data.page} 页 / 共 ${Math.max(1, Math.ceil(total / pageSize))} 页`);
+            $('#pageInfo').text(`第 \${data.page} 页 / 共 \${Math.max(1, Math.ceil(total / pageSize))} 页`);
         });
     }
 
