@@ -1,0 +1,233 @@
+/* Global minimal UI kit for the JSP pages (no build step) */
+:root {
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --primary: #2563eb;
+  --primary-600: #1d4ed8;
+  --danger: #ef4444;
+  --shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  color: var(--text);
+  background: radial-gradient(1200px 600px at 15% 10%, #eaf1ff 0%, transparent 60%),
+              radial-gradient(900px 500px at 85% 0%, #f1f5ff 0%, transparent 55%),
+              var(--bg);
+}
+
+.container {
+  width: min(1100px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 24px 0 48px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.card-body { padding: 18px; }
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.brand .logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary) 0%, #60a5fa 100%);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.25);
+}
+
+.brand .sub {
+  display: block;
+  margin-top: 2px;
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+
+a.link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a.link:hover { text-decoration: underline; }
+
+.btn {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .05s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+  user-select: none;
+}
+
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 10px 16px rgba(37, 99, 235, 0.18);
+}
+.btn-primary:hover { background: var(--primary-600); }
+
+.btn-secondary {
+  background: #fff;
+  color: var(--text);
+  border-color: var(--border);
+}
+.btn-secondary:hover { background: #f9fafb; }
+
+.btn-danger {
+  background: #fff;
+  color: var(--danger);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+.btn-danger:hover { background: rgba(239, 68, 68, 0.06); }
+
+.input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline: none;
+  font-size: 14px;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+
+.input:focus {
+  border-color: rgba(37, 99, 235, 0.55);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+
+.table th,
+.table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  font-size: 14px;
+}
+
+.table th {
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-transform: uppercase;
+  background: #f9fafb;
+}
+
+.table tr:hover td { background: #fafcff; }
+
+.table td.left { text-align: left; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  border-top: 1px solid var(--border);
+}
+
+.pager { display: flex; align-items: center; gap: 10px; }
+
+hr.sep { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+.muted { color: var(--muted); }
+
+/* Login layout */
+.auth-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 28px 16px;
+}
+
+.auth-card {
+  width: min(420px, 100%);
+  padding: 22px;
+}
+
+.auth-title {
+  margin: 8px 0 4px;
+  font-size: 20px;
+}
+
+.auth-desc {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.form-row { margin: 12px 0; }
+
+.msg {
+  margin-top: 10px;
+  min-height: 20px;
+  color: var(--danger);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.kv {
+  display: flex;
+  gap: 14px;
+  padding: 12px 18px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.kv .item { color: var(--muted); font-weight: 600; }
+.kv .item b { color: var(--text); }

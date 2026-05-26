@@ -3,39 +3,50 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>商品列表</title>
+    <title>商品列表 - MVC Shop</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/app.css">
     <script src="https://cdn.staticfile.org/jquery/3.7.1/jquery.min.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 24px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        .top { display: flex; justify-content: space-between; align-items: center; }
-    </style>
 </head>
 <body>
-<div class="top">
-    <h3>商品列表</h3>
-    <div>
-        <a href="${pageContext.request.contextPath}/cart.jsp">我的购物车</a>
-        <button id="logoutBtn">退出登录</button>
+<div class="container">
+    <div class="card">
+        <div class="navbar">
+            <div class="brand">
+                <span class="logo"></span>
+                <div>
+                    <div>商品列表</div>
+                    <span class="sub">分页浏览 · 加入购物车</span>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <a class="link" href="${pageContext.request.contextPath}/cart.jsp">我的购物车</a>
+                <button class="btn btn-secondary" id="logoutBtn">退出登录</button>
+            </div>
+        </div>
+
+        <div class="card-body" style="padding-top:0;">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="width:80px;">ID</th>
+                    <th style="text-align:left;">名称</th>
+                    <th style="width:120px;">价格</th>
+                    <th style="width:120px;">库存</th>
+                    <th style="width:140px;">操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+
+        <div class="toolbar">
+            <div class="badge" id="pageInfo">加载中...</div>
+            <div class="pager">
+                <button class="btn btn-secondary" id="prev">上一页</button>
+                <button class="btn btn-secondary" id="next">下一页</button>
+            </div>
+        </div>
     </div>
-</div>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>名称</th>
-        <th>价格</th>
-        <th>库存</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody id="tbody"></tbody>
-</table>
-<div style="margin-top:12px;">
-    <button id="prev">上一页</button>
-    <span id="pageInfo"></span>
-    <button id="next">下一页</button>
 </div>
 
 <script>
@@ -48,6 +59,12 @@
         return $('<div/>').text(text == null ? '' : text).html();
     }
 
+    function fmtMoney(n) {
+        const v = Number(n);
+        if (isNaN(v)) return n;
+        return v.toFixed(2);
+    }
+
     function loadProducts() {
         $.getJSON(ctx + '/product?action=page&page=' + page + '&pageSize=' + pageSize, function (res) {
             if (res.code !== 0) {
@@ -56,17 +73,19 @@
             }
             const data = res.data;
             total = data.total;
+
             const rows = (data.list || []).map(p => `
                 <tr>
                     <td>\${p.id}</td>
-                    <td>\${escapeHtml(p.name)}</td>
-                    <td>\${p.price}</td>
+                    <td class="left">\${escapeHtml(p.name)}</td>
+                    <td>￥\${fmtMoney(p.price)}</td>
                     <td>\${p.stock}</td>
-                    <td><button onclick="addToCart(\${p.id})">加入购物车</button></td>
+                    <td><button class="btn btn-primary" onclick="addToCart(\${p.id})">加入购物车</button></td>
                 </tr>
             `).join('');
-            $('#tbody').html(rows);
-            $('#pageInfo').text(`第 \${data.page} 页 / 共 \${Math.max(1, Math.ceil(total / pageSize))} 页`);
+
+            $('#tbody').html(rows || `<tr><td colspan="5" class="muted">暂无数据</td></tr>`);
+            $('#pageInfo').text(`第 \${data.page} 页 / 共 \${Math.max(1, Math.ceil(total / pageSize))} 页 · 共 \${total} 条`);
         });
     }
 

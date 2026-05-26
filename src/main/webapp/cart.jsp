@@ -3,39 +3,53 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>购物车</title>
+    <title>购物车 - MVC Shop</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/app.css">
     <script src="https://cdn.staticfile.org/jquery/3.7.1/jquery.min.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 24px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-    </style>
 </head>
 <body>
-<h3>我的购物车</h3>
-<div>
-    <a href="${pageContext.request.contextPath}/product_list.jsp">继续购物</a>
-    <a href="${pageContext.request.contextPath}/checkout.jsp">去结算</a>
-</div>
-<table>
-    <thead>
-    <tr>
-        <th>选择</th>
-        <th>ID</th>
-        <th>商品</th>
-        <th>价格</th>
-        <th>库存</th>
-        <th>数量</th>
-        <th>小计</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody id="tbody"></tbody>
-</table>
-<div style="margin-top:12px;">
-    <button id="prev">上一页</button>
-    <span id="pageInfo"></span>
-    <button id="next">下一页</button>
+<div class="container">
+    <div class="card">
+        <div class="navbar">
+            <div class="brand">
+                <span class="logo"></span>
+                <div>
+                    <div>我的购物车</div>
+                    <span class="sub">勾选结算 · 修改数量 · 删除</span>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <a class="link" href="${pageContext.request.contextPath}/product_list.jsp">继续购物</a>
+                <a class="link" href="${pageContext.request.contextPath}/checkout.jsp">去结算</a>
+            </div>
+        </div>
+
+        <div class="card-body" style="padding-top:0;">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="width:72px;">选择</th>
+                    <th style="width:80px;">ID</th>
+                    <th style="text-align:left;">商品</th>
+                    <th style="width:120px;">价格</th>
+                    <th style="width:100px;">库存</th>
+                    <th style="width:140px;">数量</th>
+                    <th style="width:120px;">小计</th>
+                    <th style="width:120px;">操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+
+        <div class="toolbar">
+            <div class="badge" id="pageInfo">加载中...</div>
+            <div class="pager">
+                <button class="btn btn-secondary" id="prev">上一页</button>
+                <button class="btn btn-secondary" id="next">下一页</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -46,6 +60,12 @@
 
     function escapeHtml(text) {
         return $('<div/>').text(text == null ? '' : text).html();
+    }
+
+    function fmtMoney(n) {
+        const v = Number(n);
+        if (isNaN(v)) return n;
+        return v.toFixed(2);
     }
 
     function loadCart() {
@@ -60,29 +80,31 @@
             }
             const data = res.data;
             total = data.total;
+
             const rows = (data.list || []).map(item => `
                 <tr>
                     <td><input type="checkbox" \${item.checked === 1 ? 'checked' : ''} onchange="toggleCheck(\${item.id}, this.checked)"/></td>
                     <td>\${item.id}</td>
-                    <td>\${escapeHtml(item.productName)}</td>
-                    <td>\${item.price}</td>
+                    <td class="left">\${escapeHtml(item.productName)}</td>
+                    <td>￥\${fmtMoney(item.price)}</td>
                     <td>\${item.stock}</td>
                     <td>
-                        <input type="number"
+                        <input class="input" type="number"
                                min="1"
                                max="\${item.stock}"
                                value="\${item.quantity}"
                                data-stock="\${item.stock}"
                                data-old="\${item.quantity}"
                                onchange="updateQty(\${item.id}, this)"
-                               style="width:70px;"/>
+                               style="width:100px; padding:8px 10px;"/>
                     </td>
-                    <td>\${(item.price * item.quantity).toFixed(2)}</td>
-                    <td><button onclick="delItem(\${item.id})">删除</button></td>
+                    <td>￥\${fmtMoney(item.price * item.quantity)}</td>
+                    <td><button class="btn btn-danger" onclick="delItem(\${item.id})">删除</button></td>
                 </tr>
             `).join('');
-            $('#tbody').html(rows);
-            $('#pageInfo').text(`第 \${data.page} 页 / 共 \${Math.max(1, Math.ceil(total / pageSize))} 页`);
+
+            $('#tbody').html(rows || `<tr><td colspan="8" class="muted">购物车为空</td></tr>`);
+            $('#pageInfo').text(`第 \${data.page} 页 / 共 \${Math.max(1, Math.ceil(total / pageSize))} 页 · 共 \${total} 条`);
         });
     }
 
