@@ -58,15 +58,15 @@
             total = data.total;
             const rows = (data.list || []).map(p => `
                 <tr>
-                    <td>${p.id}</td>
-                    <td>${escapeHtml(p.name)}</td>
-                    <td>${p.price}</td>
-                    <td>${p.stock}</td>
-                    <td><button onclick="addToCart(${p.id})">加入购物车</button></td>
+                    <td>\${p.id}</td>
+                    <td>\${escapeHtml(p.name)}</td>
+                    <td>\${p.price}</td>
+                    <td>\${p.stock}</td>
+                    <td><button onclick="addToCart(\${p.id})">加入购物车</button></td>
                 </tr>
             `).join('');
             $('#tbody').html(rows);
-            $('#pageInfo').text(`第 ${data.page} 页 / 共 ${Math.max(1, Math.ceil(total / pageSize))} 页`);
+            $('#pageInfo').text(`第 \${data.page} 页 / 共 \${Math.max(1, Math.ceil(total / pageSize))} 页`);
         });
     }
 
