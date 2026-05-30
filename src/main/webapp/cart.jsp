@@ -68,6 +68,11 @@
         return v.toFixed(2);
     }
 
+    function safeImg(img) {
+        if (!img) return ctx + '/assets/products/placeholder.png';
+        return img.startsWith('http') ? img : (ctx + img);
+    }
+
     function loadCart() {
         $.getJSON(ctx + '/cart?action=page&page=' + page + '&pageSize=' + pageSize, function (res) {
             if (res.code === 401) {
@@ -85,7 +90,12 @@
                 <tr>
                     <td><input type="checkbox" \${item.checked === 1 ? 'checked' : ''} onchange="toggleCheck(\${item.id}, this.checked)"/></td>
                     <td>\${item.id}</td>
-                    <td class="left">\${escapeHtml(item.productName)}</td>
+                    <td class="left">
+                        <div class="prod">
+                            <img class="thumb" src="\${safeImg(item.productImg)}" alt="img" onerror="this.src='\${ctx}/assets/products/placeholder.png'"/>
+                            <div>\${escapeHtml(item.productName)}</div>
+                        </div>
+                    </td>
                     <td>￥\${fmtMoney(item.price)}</td>
                     <td>\${item.stock}</td>
                     <td>

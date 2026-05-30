@@ -25,7 +25,7 @@ public class ProductDao {
     }
 
     public List<Product> page(int offset, int pageSize) {
-        String sql = "SELECT id, name, price, stock FROM product ORDER BY id LIMIT ?, ?";
+        String sql = "SELECT id, name, img, price, stock FROM product ORDER BY id LIMIT ?, ?";
         List<Product> list = new ArrayList<>();
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -36,6 +36,7 @@ public class ProductDao {
                     Product p = new Product();
                     p.setId(rs.getLong("id"));
                     p.setName(rs.getString("name"));
+                    p.setImg(rs.getString("img"));
                     p.setPrice(rs.getBigDecimal("price"));
                     p.setStock(rs.getInt("stock"));
                     list.add(p);
@@ -48,7 +49,7 @@ public class ProductDao {
     }
 
     public Product findById(Long id) {
-        String sql = "SELECT id, name, price, stock FROM product WHERE id = ?";
+        String sql = "SELECT id, name, img, price, stock FROM product WHERE id = ?";
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
@@ -57,6 +58,7 @@ public class ProductDao {
                     Product p = new Product();
                     p.setId(rs.getLong("id"));
                     p.setName(rs.getString("name"));
+                    p.setImg(rs.getString("img"));
                     p.setPrice(rs.getBigDecimal("price"));
                     p.setStock(rs.getInt("stock"));
                     return p;

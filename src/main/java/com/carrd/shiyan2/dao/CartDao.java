@@ -60,7 +60,7 @@ public class CartDao {
     }
 
     public CartItem findDetailById(Long userId, Long cartItemId) {
-        String sql = "SELECT c.id, c.user_id, c.product_id, c.quantity, c.checked, p.name AS product_name, p.price, p.stock " +
+        String sql = "SELECT c.id, c.user_id, c.product_id, c.quantity, c.checked, p.name AS product_name, p.img AS product_img, p.price, p.stock " +
                 "FROM cart_item c JOIN product p ON c.product_id = p.id WHERE c.user_id = ? AND c.id = ?";
         try (Connection conn = DbUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -132,7 +132,7 @@ public class CartDao {
     }
 
     public List<CartItem> pageByUser(Long userId, int offset, int pageSize) {
-        String sql = "SELECT c.id, c.user_id, c.product_id, c.quantity, c.checked, p.name AS product_name, p.price, p.stock " +
+        String sql = "SELECT c.id, c.user_id, c.product_id, c.quantity, c.checked, p.name AS product_name, p.img AS product_img, p.price, p.stock " +
                 "FROM cart_item c JOIN product p ON c.product_id = p.id WHERE c.user_id = ? ORDER BY c.id DESC LIMIT ?, ?";
         List<CartItem> list = new ArrayList<>();
         try (Connection conn = DbUtil.getConnection();
@@ -152,7 +152,7 @@ public class CartDao {
     }
 
     public List<CartItem> listCheckedItems(Long userId) {
-        String sql = "SELECT c.id, c.user_id, c.product_id, c.quantity, c.checked, p.name AS product_name, p.price, p.stock " +
+        String sql = "SELECT c.id, c.user_id, c.product_id, c.quantity, c.checked, p.name AS product_name, p.img AS product_img, p.price, p.stock " +
                 "FROM cart_item c JOIN product p ON c.product_id = p.id WHERE c.user_id = ? AND c.checked = 1 ORDER BY c.id DESC";
         List<CartItem> list = new ArrayList<>();
         try (Connection conn = DbUtil.getConnection();
@@ -177,6 +177,7 @@ public class CartDao {
         item.setQuantity(rs.getInt("quantity"));
         item.setChecked(rs.getInt("checked"));
         item.setProductName(rs.getString("product_name"));
+        item.setProductImg(rs.getString("product_img"));
         item.setPrice(rs.getBigDecimal("price"));
         item.setStock(rs.getInt("stock"));
         return item;

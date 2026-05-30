@@ -28,6 +28,7 @@
             <table class="table">
                 <thead>
                 <tr>
+                    <th style="width:96px;">图片</th>
                     <th style="width:80px;">ID</th>
                     <th style="text-align:left;">名称</th>
                     <th style="width:120px;">价格</th>
@@ -65,6 +66,12 @@
         return v.toFixed(2);
     }
 
+    function safeImg(img) {
+        if (!img) return ctx + '/assets/products/placeholder.png';
+        // DB stores like /assets/products/p01.png
+        return img.startsWith('http') ? img : (ctx + img);
+    }
+
     function loadProducts() {
         $.getJSON(ctx + '/product?action=page&page=' + page + '&pageSize=' + pageSize, function (res) {
             if (res.code !== 0) {
@@ -76,6 +83,7 @@
 
             const rows = (data.list || []).map(p => `
                 <tr>
+                    <td><img class="thumb" src="\${safeImg(p.img)}" alt="img" onerror="this.src='\${ctx}/assets/products/placeholder.png'"/></td>
                     <td>\${p.id}</td>
                     <td class="left">\${escapeHtml(p.name)}</td>
                     <td>￥\${fmtMoney(p.price)}</td>
@@ -84,7 +92,7 @@
                 </tr>
             `).join('');
 
-            $('#tbody').html(rows || `<tr><td colspan="5" class="muted">暂无数据</td></tr>`);
+            $('#tbody').html(rows || `<tr><td colspan="6" class="muted">暂无数据</td></tr>`);
             $('#pageInfo').text(`第 \${data.page} 页 / 共 \${Math.max(1, Math.ceil(total / pageSize))} 页 · 共 \${total} 条`);
         });
     }

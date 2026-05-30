@@ -186,6 +186,22 @@ hr.sep { border: none; border-top: 1px solid var(--border); margin: 0; }
 
 .muted { color: var(--muted); }
 
+/* thumbnails */
+.thumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: #f9fafb;
+}
+
+.prod {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 /* Login layout */
 .auth-wrap {
   min-height: 100vh;

@@ -9,6 +9,7 @@ public class CartItem {
     private Integer quantity;
     private Integer checked;
     private String productName;
+    private String productImg;
     private BigDecimal price;
     private Integer stock;
 
@@ -58,6 +59,14 @@ public class CartItem {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public String getProductImg() {
+        return productImg;
+    }
+
+    public void setProductImg(String productImg) {
+        this.productImg = productImg;
     }
 
     public BigDecimal getPrice() {
